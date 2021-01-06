@@ -1,9 +1,11 @@
 package com.fastcampus.javaallinone.project3.mycontact.domain;
 
+import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
 import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.time.LocalDate;
 
 @Entity
@@ -14,7 +16,7 @@ import java.time.LocalDate;
 public class Person {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
@@ -30,7 +32,9 @@ public class Person {
 
     private String address;
 
-    private LocalDate birthday;
+    @Valid
+    @Embedded
+    private Birthday birthday;
 
     private String job;
 
