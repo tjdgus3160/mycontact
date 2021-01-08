@@ -16,18 +16,6 @@ class PersonServiceTest {
     private PersonService personService;
 
     @Test
-    void getPeopleExcludeBlocks(){
-        List<Person> result = personService.getPeopleExcludeBlocks();
-
-        result.forEach(System.out::println);
-
-        assertEquals(result.size(),3);
-        assertEquals(result.get(0).getName(),"martin");
-        assertEquals(result.get(1).getName(),"david");
-        assertEquals(result.get(2).getName(),"benny");
-    }
-
-    @Test
     void getPeopleByName(){
         List<Person> result = personService.getPeopleByName("martin");
 

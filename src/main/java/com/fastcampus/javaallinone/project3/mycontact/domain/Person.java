@@ -8,8 +8,8 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -28,16 +28,7 @@ public class Person {
     @Column(nullable = false)
     private String name;
 
-    @NonNull
-    @Min(1)
-    private int age;
-
     private String hobby;
-
-    @NonNull
-    @NotEmpty
-    @Column(nullable = false)
-    private String bloodType;
 
     private String address;
 
@@ -47,25 +38,14 @@ public class Person {
 
     private String job;
 
-    @ToString.Exclude
     private String phoneNumber;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    private Block block;
 
     @ColumnDefault("0")
     private boolean deleted;
 
     public void set(PersonDto personDto){
-        if(personDto.getAge()!=0){
-            this.setAge(personDto.getAge());
-        }
         if(!personDto.getHobby().trim().isEmpty()){
             this.setHobby(personDto.getHobby());
-        }
-        if(!personDto.getBloodType().trim().isEmpty()){
-            this.setBloodType(personDto.getBloodType());
         }
         if(!personDto.getAddress().trim().isEmpty()){
             this.setAddress(personDto.getAddress());
@@ -76,5 +56,20 @@ public class Person {
         if(!personDto.getPhoneNumber().trim().isEmpty()){
             this.setPhoneNumber(personDto.getPhoneNumber());
         }
+        if(personDto.getBirthday()!=null){
+            this.setBirthday(Birthday.of(personDto.getBirthday()));
+        }
+
+    }
+    public Integer getAge(){
+        if(birthday!=null) {
+            return LocalDate.now().getYear() - birthday.getYearOfBirthday() + 1;
+        }else{
+            return null;
+        }
+    }
+
+    public boolean isBirthdayToday(){
+        return LocalDate.now().equals(LocalDate.of(birthday.getYearOfBirthday(),birthday.getMonthOfBirthday(),birthday.getDayOfBirthday()));
     }
 }

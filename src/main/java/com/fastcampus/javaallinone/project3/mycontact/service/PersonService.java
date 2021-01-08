@@ -18,13 +18,6 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public List<Person> getPeopleExcludeBlocks(){
-//        List<Person> people = personRepository.findAll();
-//        return people.stream().filter(person -> person.getBlock()==null).collect(Collectors.toList());
-
-        return personRepository.findByBlockIsNull();
-    }
-
     @Transactional(readOnly = true)
     public Person getPerson(Long id){
         Person person = personRepository.findById(id).orElse(null);
@@ -40,7 +33,11 @@ public class PersonService {
     }
 
     @Transactional
-    public void put(Person person){
+    public void put(PersonDto personDto){
+        Person person = new Person();
+        person.set(personDto);
+        person.setName(personDto.getName());
+
         personRepository.save(person);
     }
 
