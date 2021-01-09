@@ -2,7 +2,6 @@ package com.fastcampus.javaallinone.project3.mycontact.service;
 
 import com.fastcampus.javaallinone.project3.mycontact.controller.dto.PersonDto;
 import com.fastcampus.javaallinone.project3.mycontact.domain.Person;
-import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
 import com.fastcampus.javaallinone.project3.mycontact.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +17,16 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    @Transactional(readOnly = true)
-    public Person getPerson(Long id){
-        Person person = personRepository.findById(id).orElse(null);
-
-        return person;
-    }
-
     public List<Person> getPeopleByName(String name) {
 //        List<Person> people = personRepository.findAll();
 //        return people.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
 
         return personRepository.findByName(name);
+    }
+
+    @Transactional(readOnly = true)
+    public Person getPerson(Long id){
+        return personRepository.findById(id).orElse(null);
     }
 
     @Transactional
