@@ -1,7 +1,7 @@
 # mycontact
 fastcampus Toy Project
 
-#지인정보관리시스템
+# 지인정보관리시스템
 
 ## 학습내용정리
 - 스프링부트 프로젝트 생성
