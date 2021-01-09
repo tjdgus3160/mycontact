@@ -14,6 +14,10 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,6 +35,19 @@ class PersonServiceTest {
 
     @Mock
     private PersonRepository personRepository;
+
+    @Test
+    void getAll(){
+        when(personRepository.findAll(any(Pageable.class)))
+                .thenReturn(new PageImpl<>(Lists.newArrayList(new Person("martin"),new Person("dennis"),new Person("tony"))));
+
+        Page<Person> result = personService.getAll(PageRequest.of(0,3));
+
+        assertEquals(result.getNumberOfElements(),3);
+        assertEquals(result.getContent().get(0).getName(),"martin");
+        assertEquals(result.getContent().get(1).getName(),"dennis");
+        assertEquals(result.getContent().get(2).getName(),"tony");
+    }
 
     @Test
     void getPeopleByName(){
